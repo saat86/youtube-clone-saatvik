@@ -10,9 +10,6 @@ import { useMediaQuery } from '@mui/material';
 
 function Feed() {
     const { data, searchValue } = useSelector((state) => state.videoData);
-    const [AddCategory, SetAddCategory] = useState(['New', 'Music', 'Sports', 'Health', 'Food', 'Entertainment', 'Funny']);
-    const [Category, SetCategory] = useState('New');
-    const [Data, setData] = useState();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const location = useLocation();

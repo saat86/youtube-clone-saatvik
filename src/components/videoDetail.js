@@ -5,10 +5,15 @@ import { useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import ReactPlayer from 'react-player'
 import Search from './Search';
+import VideoDisplay from './VideoDisplay'
+import {useDispatch}  from 'react-redux';
+import { setVideoData } from '../slice/videoDataSlice';
 
 function VideoDetail() {
     const {id} =useParams();
     const [SpecificData,SetSpecificData] =useState([]);
+    const dispatch=useDispatch();
+
     useEffect(() => {
         const fetchDataAndDispatch = async () => {
             try {
@@ -16,10 +21,27 @@ function VideoDetail() {
                  SetSpecificData(fetchedData.items[0].snippet.title)
             } catch (error) {
                 console.error('Error fetching data:', error);
+                
             }
         };
         fetchDataAndDispatch();
-    }, []);
+    }, [id]);
+
+    useEffect(()=>{
+        const suggestedVideosData =async()=>{
+            try{
+                const suggeestedData =await Fetchdata(`search?relatedToVideoId=${id}`);
+                dispatch(setVideoData(suggeestedData));
+            }
+         catch (error) {
+            console.error('Error fetching data:', error);
+            
+        }
+    };
+
+        suggestedVideosData();
+
+    },[id])
 
     
     return (
@@ -31,6 +53,11 @@ function VideoDetail() {
         </Box>
         <Box sx={{display:'flex',justifyContent:'center',width:"100%",marginTop:"20px"}}>
         <Typography variant='h5'>{SpecificData}</Typography>
+        </Box>
+    
+        <Box sx={{marginLeft:'50px', marginTop:'12px'}}>
+        <Typography variant='h6'>Related Videos</Typography>
+        <VideoDisplay/>
         </Box>
       
        

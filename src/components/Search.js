@@ -12,7 +12,7 @@ function Search() {
     const dispatch=useDispatch();
     const navigate=useNavigate();
     const location=useLocation();
-    const [data,setData]=useState('')
+    const [data,setData]=useState('');
 
     const handleOnChange=(event)=>{
         setData(event.target.value)
